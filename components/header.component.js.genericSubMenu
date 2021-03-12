@@ -1,0 +1,343 @@
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+
+import { Card, Row, Col, Navbar, NavDropdown, Nav, Image } from 'react-bootstrap'
+
+const menuLayout = { value: '',
+  children: [
+    { value: '/',
+      label: 'Home'
+    },
+    { value: '/services/sterilization',
+      label: 'Sterilization',
+      children: [
+        { value: '/services/sterilization/hpgp',
+          children: [
+            { value: 'hpgp-1',
+              label: 'hpgp-1'
+            },
+            { value: 'hpgp-2',
+              label: 'hpgp-2'
+            },
+            { value: 'hpgp-3',
+              label: 'hpgp-3'
+            }
+          ]
+        },
+        { value: '/services/sterilization/eto',
+          label: 'Ethelyne Oxide'
+        },
+        { value: 'ebeam',
+          label: 'E-Beam Irradiation'
+        },
+        { value: 'gama',
+          label: 'Gamma Irradiation'
+        },
+      ] },
+    { value: '/services/packaging',
+      label: 'Packaging',
+      children: [
+        { value: 'packaging-1'
+        },
+        { value: 'packaging-2' },
+        { value: 'packaging-3' }
+      ]
+    },
+    { value: '/services/development',
+      label: 'Regulatory',
+      children: [
+        { value: 'development-1' },
+        { value: 'development-2' },
+        { value: 'development-3' }
+      ]
+    },
+    { value: '/about',
+      label: 'About Us'
+    },
+    { value: '/contact',
+      label: 'Contact Us'
+    },
+    { value: '/careers',
+      label: 'Careers'
+    },
+  ]
+}
+
+
+class Header extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = { height: 0 }
+  }
+
+  componentDidMount() {
+    this.updateHeight()
+    window.addEventListener("resize", this.updateHeight)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateHeight)
+  }
+
+  componentDidUpdate() {
+    this.updateHeight()
+  }
+
+  updateHeight = () => {
+    if (this.navbar != null && this.props && this.props.setHeaderHeight) {
+      if (this.state.height !== this.navbar.clientHeight) {
+        this.props.setHeaderHeight(this.navbar.clientHeight)
+        this.setState({ height: this.navbar.clientHeight })
+      }
+    }
+  }
+
+  maintainSelection = () => {
+    this.setState({
+      selected: this.state.selected,
+    })
+  } 
+
+  clearSelection = () => {
+    this.setState({
+      selected: undefined,
+    })
+  }
+
+  displayNav = ( item ) => (
+    <Nav className='ml-auto myDrop'>
+
+      { item.children.map( (child, index) => (
+        <>
+          <Link
+            className='navbar-text nav-link nav-item'
+            onMouseEnter={ () => this.setState({ selected: child.value }) }
+            onMouseLeave={ this.clearSelection }
+            to={ child.value } >
+            { child.label || child.value }
+          </Link>
+
+          { this.state && this.state.selected && (
+            <div className='myDrop-content'
+              onMouseEnter={ this.maintainSelection }
+              onMouseLeave={ this.clearSelection } >
+              test
+
+              { (this.state.selected === child.value ||
+                child.value.includes(this.state.selected)) &&
+                  child.children && child.children.length > 0 && 
+                  <Card className='mt-0 text-light bg-primary rounded' >
+                    { this.display(child) }
+                  </Card>
+              }
+
+            </div>
+          ) }
+
+        </>
+      )) }
+
+    </Nav>
+  )
+
+  display = ( item ) => (
+    <Nav
+      onMouseEnter={ this.maintainSelection }
+      onMouseLeave={ this.clearSelection }
+      className='justify-content-around' >
+
+      { item.children.map( (child, index) => (
+        <>
+          <Link
+            className='navbar-text nav-link nav-item'
+            onMouseEnter={ () => this.setState({ selected: child.value }) }
+            onMouseLeave={ this.clearSelection }
+            to={ child.value } >
+            { child.label || child.value }
+          </Link>
+          { this.state && this.state.selected && (
+            <div className='myDrop-content'
+              onMouseEnter={ this.maintainSelection }
+              onMouseLeave={ this.clearSelection } >
+
+              { (this.state.selected === child.value || child.value.includes(this.state.selected)) && child.children && child.children.length > 0 && 
+              <Card className='mt-0 text-light bg-primary rounded' >
+                { this.display(child) }
+              </Card>
+              }
+
+            </div>
+          ) }
+        </>
+      )) }
+
+    </Nav>
+  )
+
+  render() {
+    return (
+      <>
+        <Navbar 
+          ref={ ( navbar ) => { this.navbar = navbar } }
+          collapseOnSelect
+          expand='sm'
+          sticky='top'
+          className='
+          gradientBack
+          px-sm-5
+          py-3
+          pb-5
+          flex-column
+          flex-lg-row
+          '>
+
+          <Link to='/' className='px-3' >
+            <Image fluid='md' src='/header.png' className='headerImg logo' />
+          </Link>
+
+          <Navbar.Toggle aria-controls='responsive-navbar-nav' className='my-1' />
+
+          <Navbar.Collapse id='responsive-navbar-nav' >
+
+            {
+              this.displayNav(menuLayout)
+            }
+
+
+            {/*
+          <Nav activeKey='/home' className='ml-auto myDrop'>
+
+            <Link
+              to='/'
+              className='navbar-text nav-link' >
+              Home
+            </Link>
+
+            <Link
+              to='/services/sterilization'
+              onMouseEnter={ () => this.setState({ selected: 'sterilization' }) }
+              onMouseLeave={ this.clearSelection }
+              className={ 'nav-item navbar-text nav-link ' +
+                  ( (this.state.selected === 'sterilization' || this.state.selected === 'sub1' ) &&
+                    'font-weight-bold active') }>
+              Sterilization
+            </Link>
+
+            { this.state && this.state.selected && (
+              <div className='myDrop-content'
+                onMouseEnter={ this.maintainSelection }
+                onMouseLeave={ this.clearSelection }
+              >
+                <Card className='mt-0 text-light bg-primary rounded' >
+                  { ( ( this.state.selected === 'sterilization' || this.state.selected === 'sub1' ) && (
+                    <>
+                      <Nav
+                        onMouseEnter={ this.maintainSelection }
+                        onMouseLeave={ this.clearSelection }
+                        className='justify-content-around' >
+
+                        <Link
+                          onMouseEnter={ () => this.setState({ selected: 'sub1' }) }
+                          onMouseLeave={ () => this.setState({ selected: 'sterilization' }) }
+                          className={ 'text-light navbar-text nav-link ' +
+                              ((this.state.selected === 'sub1') &&
+                                'font-weight-bold active') }>
+                          H<sub>2</sub>O<sub>2</sub>
+                        </Link>
+
+                        <Link
+                          onMouseEnter={ () => this.setState({ selected: 'sub1' }) }
+                          onMouseLeave={ () => this.setState({ selected: 'sterilization' }) }
+                          className={ 'text-light navbar-text nav-link ' +
+                              ((this.state.selected === 'sub1') &&
+                                'font-weight-bold active') }>
+                          Ethelene Oxide
+                        </Link>
+
+                        <Link
+                          onMouseEnter={ () => this.setState({ selected: 'sub1' }) }
+                          onMouseLeave={ () => this.setState({ selected: 'sterilization' }) }
+                          className={ 'text-light navbar-text nav-link ' +
+                              ((this.state.selected === 'sub1') &&
+                                'font-weight-bold active') }>
+                          H<sub>2</sub>O<sub>2</sub>
+                        </Link>
+
+                        <Link
+                          onMouseEnter={ () => this.setState({ selected: 'sub1' }) }
+                          onMouseLeave={ () => this.setState({ selected: 'sterilization' }) }
+                          className={ 'text-light navbar-text nav-link ' +
+                              ((this.state.selected === 'sub1') &&
+                                'font-weight-bold active') }>
+                          H<sub>2</sub>O<sub>2</sub>
+                        </Link>
+
+                        <Link
+                          onMouseEnter={ () => this.setState({ selected: 'sub1' }) }
+                          onMouseLeave={ () => this.setState({ selected: 'sterilization' }) }
+                          className={ 'text-light navbar-text nav-link ' +
+                              ((this.state.selected === 'sub1') &&
+                                'font-weight-bold active') }>
+                          H<sub>2</sub>O<sub>2</sub>
+                        </Link>
+
+                      </Nav>
+
+                      { this.state && this.state.selected &&
+                          (this.state.selected === 'sub1' ) && (
+                            <Nav
+                              onMouseEnter={ this.maintainSelection }
+                              onMouseLeave={ this.clearSelection }
+                              className='justify-content-around ' >
+                              <Link
+                                to='/careers'
+                                className='navbar-text nav-link'>
+                                Sterilization Submenu 1 Submenu 1
+                              </Link>
+
+                            </Nav>
+                          ) }
+                    </>
+
+                  ) ) || ( this.state.selected === 'packaging' && (
+                    <Nav
+                      className='justify-content-around' >
+
+                      <Link
+                        to='/careers'
+                        className='navbar-text nav-link'>
+                        Packaging Submenu 1
+                      </Link>
+
+                      <Link
+                        to='/careers'
+                        className='navbar-text nav-link'>
+                        Packaging Submenu 2
+                      </Link>
+
+                      <Link
+                        to='/careers'
+                        className='navbar-text nav-link'>
+                        Packaging Submenu 3
+                      </Link>
+
+                    </Nav>
+                  ) ) }
+                </Card>
+              </div>
+            )}
+          </Nav>
+            */}
+
+          </Navbar.Collapse>
+        </Navbar>
+        <div >
+          { this.state.selected }
+        </div>
+      </>
+    )
+  }
+}
+
+export default Header

@@ -1,0 +1,142 @@
+<h1>Eagle Medical Website Outline</h1>
+<p>Outline of pages and functionality to be implemented</p>
+<p><em>This document is not an indication of what has or has not been implemented.</em></p>
+<blockquote>
+<p>Meta: Items in <strong>bold</strong> are content that we need obtained.</p>
+</blockquote>
+<blockquote>
+<p>Meta: Anything shown in <code>this format</code> is a <em>static character string or property</em> and if changed, needs to be changed within the code (e.x. a page title, a page's address, a variable name (e.x. <code>userType</code>) or a variable name's displayed string (e.x. <code>User Type</code>) )</p>
+</blockquote>
+<blockquote>
+<p>Meta: Anything <span style="color:red" >displayed in red</span> is a <em>redline</em> and therefore a suggestion for future edits. <em>Redline</em>s need to be inquired about for acceptance and subsequent marking for implementation.</p>
+</blockquote>
+<h2>Components</h2>
+<ul>
+<li>Header (<code>components/header</code>) (shown at top of every page)</li>
+<li>Footer (<code>components/footer</code>) (shown at bottom of every page)</li>
+<li><code>Contact Us</code> Form (<code>components/contact.form</code>)<ul>
+<li><code>We'd love to hear from you!</code> header</li>
+<li><code>Your name</code> field<ul>
+<li>hint: <code>Christopher Walken</code></li>
+</ul>
+</li>
+<li><code>Email address</code> field<ul>
+<li>hint: <code>cwalken@example.com</code></li>
+</ul>
+</li>
+<li><code>Company name</code> field<ul>
+<li>hint: <code>Eagle Medical</code></li>
+</ul>
+</li>
+<li><code>message</code> field (text-area)<ul>
+<li>hint: <code>How can we help you today?</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>Structure</h2>
+<ul>
+<li>Home Page (<code>/</code>)<ul>
+<li>Carousel showing the following headings:<ul>
+<li><code>Quality Assembly and Packaging</code><ul>
+<li>Description: <code>Eagle Medical is certified to requirements of ISO 13485:2016 for contract packaging and sterilization of medical products.</code><ul>
+<li><span style="color:red">Add link to <code>ISO 13485:2016</code> to go to <strong>our certification</strong> or the ISO's webpage on the standard?</span></li>
+</ul>
+</li>
+<li>Image: <code>public/carousel/01.jpg</code> (shrinkwrap machine)</li>
+</ul>
+</li>
+<li><code>Sterilization Solutions</code><ul>
+<li>Description: <code>Eagle Medical is committed to finding the most suitable and efficient sterilization method for our customers' products.</code></li>
+<li>Image: <code>public/carousel/02.jpg</code> (sterilizers)</li>
+</ul>
+</li>
+<li><code>Cleanrooms</code><ul>
+<li>Description: <code>ISO 14644-1 Class 7 (Class 10,000) state of the art cleanrooms and laminar flow benches provide the highest standard of sterile environment for your procedures.</code><ul>
+<li><span style="color:red">Add link to <code>ISO 14644-1:2016</code> to go to <strong>our certification</strong> or the ISO's webpage on the standard?</span></li>
+</ul>
+</li>
+<li>Image: <code>public/carousel/03.jpg</code> (cleanroom)</li>
+</ul>
+</li>
+<li><span style="color:red">Add links to each heading to go to their respective pages...?</span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Services</code> (<code>/services</code>)<ul>
+<li><span style="color:red">This page does not currently have anything linking to this page though we should probably <strong>add content that explains each service</strong> and then link to each service page</span></li>
+<li><code>Medical Device Sterilization</code> (<code>/services/sterilization</code>)</li>
+<li><code>Production and Packaging</code> (<code>/services/production</code>)</li>
+<li><code>Product Development and FDA Approval</code> (<code>/services/development</code>)</li>
+<li><span style="color:red"><strong>Add services or at least break them down in a better way? I think this part of the outline could use some restructuring.</strong> I'm not too clear on all the services we offer and how they can be structured into categories and subcategories.</span></li>
+</ul>
+</li>
+<li><code>About Us</code> (<code>/about</code>)<ul>
+<li><code>ABOUT US</code> heading<ul>
+<li><code>&lt;About Us text&gt;</code></li>
+<li><span style="color:red">Add a nice <strong>group picture</strong> of all the employees?</span></li>
+</ul>
+</li>
+<li><code>THE MANAGEMENT TEAM</code> heading<ul>
+<li>list each of the managers and their bio</li>
+<li><span style="color:red">Add a nice <strong>picture for each manager</strong> to go next to their name? Adds a nice personal touch.</span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Contact Us</code> (<code>/contact</code>)<ul>
+<li>Picture of the office's entrance (<code>public/location.png</code>)<ul>
+<li>Caption: <code>We are located in beautiful Paso Robles, off of Hwy. 46, near Hwy. 101.</code></li>
+</ul>
+</li>
+<li><code>Paso Robles, CA Offices</code> heading<ul>
+<li>contact information that is pulled from the Footer component</li>
+</ul>
+</li>
+<li><code>Contact Us</code> Form (<code>components/contact.form</code> (see components section above for structure) )</li>
+</ul>
+</li>
+<li><code>Careers</code> (<code>/careers</code>)<ul>
+<li>Link to the <code>Application for Employment (Hourly)</code> (<code>/forms/application</code>) page for hourly applicants</li>
+<li>List of available positions, their minimum requirements and how to apply for them<ul>
+<li><strong>Need a list of these positions or at least an example of the information for each position that needs to be displayed</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Login</code> (<code>/login</code>) - login page for all users<ul>
+<li>Successful login requires the <code>Email</code> and <code>Password</code> that the user registered with</li>
+</ul>
+</li>
+<li><code>Register</code> (<code>/register</code>) - user registration page<ul>
+<li>Successful registration requires:<ul>
+<li><code>Email</code>  <span style="color:red">add a verification code email after successful registration?</span></li>
+<li><code>Password</code></li>
+<li><code>Password Confirmation</code> that matches the <code>Password</code> field</li>
+<li><code>User Type</code> is selected from a dropdown menu and is one of the following:<ul>
+<li><span style="color:red"><code>none</code> (default) for those who wish to sign up for a newsletter...or what else would we need a <code>none</code> default user type for?</span></li>
+<li><code>Applicant</code> - a user that is filling out and saving a job application</li>
+<li><code>Employee</code> - an employee of Eagle Medical<ul>
+<li>Requires an <code>Employee ID#</code>, <code>First Name</code> and <code>Last Name</code> that matches the employee records that we have on file (and have imported into the <code>em-db</code>)<ul>
+<li><span style="color:red">It may be a good idea to make this more secure such as verifying the employee's last 4 digits of their SSN# with their first and last name as opposed to their employee ID# which can be more easily obtained.</span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>Customer</code> - a customer of Eagle Medical<ul>
+<li>Successful registration requires a <code>Customer Code</code> which is given to the company by Eagle Medical and allows the company's employees to register with this site using their own private credentials. This <code>Customer Code</code> is then stored as a property of the user to designate the pages and data the user has access to.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Forms (<code>/forms</code>)<ul>
+<li></li>
+</ul>
+</li>
+</ul>

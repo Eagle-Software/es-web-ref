@@ -1,0 +1,267 @@
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+
+import { Card, Row, Col, Navbar, NavDropdown, Nav, Image } from 'react-bootstrap'
+
+var menuLayout = { value: '',
+  children: [
+    { value: '/home',
+      label: 'Home'
+    },
+    { value: '/services/sterilization',
+      label: 'Sterilization',
+      children: [
+        { value: '/services/sterilization/hpgp',
+          label: 'HPGP',
+          children: [
+            { value: '/services/sterilization/hpgp-1',
+              label: 'hpgp-1'
+            },
+            { value: '/services/sterilization/hpgp-2',
+              label: 'hpgp-2'
+            },
+            { value: '/services/sterilization/hpgp-3',
+              label: 'hpgp-3'
+            }
+          ]
+        },
+        { value: '/services/sterilization/eto',
+          label: 'Ethelyne Oxide'
+        },
+        { value: '/services/sterilization/ebeam',
+          label: 'E-Beam Irradiation'
+        },
+        { value: '/services/sterilization/gama',
+          label: 'Gamma Irradiation'
+        },
+      ] },
+    { value: '/services/packaging',
+      label: 'Packaging',
+      children: [
+        { value: '/services/packaging/packaging-1',
+          label: 'packaging-1'
+        },
+        { value: '/services/packaging/packaging-2',
+          label: 'packaging-2'
+        },
+        { value: '/services/packaging/packaging-3',
+          label: 'packaging-3'
+        }
+      ]
+    },
+    { value: '/services/development',
+      label: 'Product Development',
+      children: [
+        { value: '/services/development/development-1',
+          label: 'development-1'
+        },
+        { value: '/services/development/development-2',
+          label: 'development-1'
+        },
+        { value: '/services/development/development-3',
+          label: 'development-1'
+        },
+      ]
+    },
+    { value: '/about',
+      label: 'About Us'
+    },
+    { value: '/contact',
+      label: 'Contact Us'
+    },
+    { value: '/careers',
+      label: 'Careers'
+    },
+  ]
+}
+
+function insertParents(item) {
+  if (item.children) {
+    for (const child of item.children) {
+      child.parent = item
+      insertParents(child)
+    }
+  }
+}
+insertParents(menuLayout)
+
+class Header extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = { height: 0 }
+  }
+
+  componentDidMount() {
+    this.updateHeight()
+    window.addEventListener("resize", this.updateHeight)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateHeight)
+  }
+
+  componentDidUpdate() {
+    this.updateHeight()
+  }
+
+  updateHeight = () => {
+    if (this.navbar != null && this.props && this.props.setHeaderHeight) {
+      if (this.state.height !== this.navbar.clientHeight) {
+        this.props.setHeaderHeight(this.navbar.clientHeight)
+        this.setState({ height: this.navbar.clientHeight })
+      }
+    }
+  }
+
+  maintainSelection = () => {
+    this.setState({
+      selected: this.state.selected,
+    })
+  } 
+
+  clearSelection = () => {
+    this.setState({
+      selected: undefined,
+    })
+  }
+
+  itemOrSubSelected = (item) => {
+    var found = false
+    if (this.state.selected === item) {
+      found = true
+    }
+
+    if (item.children && item.children.length > 0) {
+      item.children.forEach( (child, i) => {
+        if ( this.itemOrSubSelected(child) === true ) {
+          found = true
+        }
+      })
+    }
+    return found
+  }
+
+  displayRecursive = (item) => (
+
+    <>
+      <Nav
+        onMouseEnter={ this.maintainSelection }
+        onMouseLeave={ this.clearSelection }
+        className='justify-content-around' >
+        { item.children.map( (subItem) => (
+          <>
+
+            <Link
+              className={ 'nav-item navbar-text nav-link ' +
+                  ( this.state && this.state.selected &&
+                    this.itemOrSubSelected(subItem) &&
+                    'font-weight-bold active') }
+              onMouseEnter={ () => this.setState({ selected: subItem }) }
+              onMouseLeave={ () => this.setState({
+                selected: subItem.parent }) }
+              to={ subItem.value } >
+              { subItem.label || subItem.value }
+            </Link>
+
+          </>
+        )) }
+      </Nav>
+      { this.state && this.state.selected !== item && this.itemOrSubSelected(item) && 
+          item.children && (item.children.length > 0) && (
+            /* this.displayRecursive(item) */
+            <Nav
+              onMouseEnter={ this.maintainSelection }
+              onMouseLeave={ () => this.setState({
+                selected: item }) }
+              className='justify-content-around' >
+              { item.children.map( (subsubItem) => (
+                <Link
+                  className={ 'nav-item navbar-text nav-link ' +
+                      ( this.state && this.state.selected &&
+                        this.itemOrSubSelected(subsubItem) &&
+                        'font-weight-bold active') }
+                  onMouseEnter={ () => this.setState({ selected: subsubItem }) }
+                  onMouseLeave={ () => this.setState({
+                    selected: subsubItem.parent }) }
+                  to={ subsubItem.value } >
+                  { subsubItem.label || subsubItem.value }
+                </Link>
+              )) }
+            </Nav>
+          )}
+    </>
+  )
+
+  render() {
+    return (
+      <>
+        <Navbar 
+          ref={ ( navbar ) => { this.navbar = navbar } }
+          collapseOnSelect
+          expand='sm'
+          sticky='top'
+          className='
+          gradientBack
+          px-sm-5
+          py-3
+          pb-5
+          flex-column
+          flex-lg-row
+          '>
+
+          <Link to='/' className='px-3' >
+            <Image fluid='md' src='/header.png' className='headerImg logo' />
+          </Link>
+
+          <Navbar.Toggle aria-controls='responsive-navbar-nav' className='my-1' />
+
+          <Navbar.Collapse id='responsive-navbar-nav' >
+
+            <Nav
+              onMouseLeave={ this.clearSelection }
+              className='ml-auto myDrop'>
+
+              { menuLayout.children.map( (item) => (
+                <>
+
+                  <Link
+                    className={ 'nav-item navbar-text nav-link ' +
+                        ( this.state && this.state.selected &&
+                          this.itemOrSubSelected(item) &&
+                          ' active') }
+                    onMouseEnter={ () => this.setState({ selected: item }) }
+                    to={ item.value } >
+                    { item.label || item.value }
+                  </Link>
+
+                  { this.state && this.state.selected && this.itemOrSubSelected(item) &&
+                      item.children && (item.children.length > 0) && (
+                        <Card className='myDrop-content mt-0 text-light bg-primary rounded'
+                          onMouseLeave={ this.clearSelection } >
+                          { this.displayRecursive(item) }
+                        </Card>
+                      ) }
+
+                </>
+              )) }
+
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+        <div>
+          selected: 
+          { this.state && this.state.selected && this.state.selected.value }
+          <br />
+          test: 
+          { this.state && this.state.selected && menuLayout.children[1].value }
+          <br />
+          result:
+          { this.state && this.state.selected && (this.itemOrSubSelected(menuLayout.children[1] === true) && 'true') || 'false' }
+        </div>
+      </>
+    )
+  }
+}
+
+              export default Header

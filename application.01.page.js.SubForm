@@ -1,0 +1,596 @@
+import React, { Component } from 'react'
+import { Card, Row, Col, Container } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
+import { Form as RFForm, Field } from 'react-final-form'
+import { FieldArray } from 'react-final-form-arrays'
+import us from 'us'
+
+import SubForm from 'components/subForm.component'
+
+import ApplicationHeaderComponent from './applicationHeader.component'
+
+const ANSWER_ROWS = 2
+const ANSWER_MAX_LEN = 280
+
+const prelim_questions = [
+   {  prompt: "Position(s) applied for or type of work desired?"
+   },
+   {  prompt: "Type of employment desired (full, part, temp)"
+   },
+   {  prompt: "When can you start work?",
+   },
+   {  prompt: "Are you able to meet the attendance requirements?",
+   },
+   {  prompt: "Do you have any objection to working overtime if necessary?",
+   },
+   {  prompt: "Can you travel if required by this position?",
+   },
+   {  prompt: "Have you been previously employed by our organization?",
+   },
+   {  prompt: "Can you submit proof of legal employment authorization and identity?",
+   },
+   {  prompt: "If you are under 18, can you furnish a work permit if it is required?",
+   },
+   {  prompt: "Have you been convicted of a crime in the last 7 years?",
+   },
+   {  prompt: "If yes, please explain (a conviction will not automatically bar employment)",
+   },
+   {  prompt: "Driver's license number (if driving is an essential job duty)",
+      rows: 1
+   },
+   {  prompt: "How were you referred to us?"
+   },
+]
+
+export default class Application01 extends Component {
+
+   constructor(props) {
+      super(props)
+
+      this.state = {
+         employers: []
+      }
+
+      this.onSubmit = this.onSubmit.bind(this)
+      this.validate = this.validate.bind(this)
+   }
+
+   onSubmit() {
+
+   }
+
+   saveEmployer = () => {
+
+   }
+
+   validate (values) {
+      const errors = {}
+      if (true) {
+         errors.firstName = 'Required'
+      }
+      console.dir(errors)
+   }
+
+   render() {
+      return (
+         <Card>
+            <Card.Body>
+               <ApplicationHeaderComponent />
+
+               <SubForm>
+
+                  <SubForm.Page>
+                     <Form.Group>
+                        <Form.Group>
+                           <Form.Label className="h4">Personal Information</Form.Label>
+
+                           <Form.Row>
+                              <Field name="firstName">
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>First Name</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          type='text'
+                                          placeholder="Norman" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback type="invalid" >
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                              <Field name="lastName">
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>Last Name</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          type='text'
+                                          placeholder="Rockwell" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback type="invalid" >
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name="address1">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>Address</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="address-line1"
+                                          type="text"
+                                          placeholder="1234 Main St." />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name="address2">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="address-line2"
+                                          type="text"
+                                          placeholder="Apartment, studio, floor" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name="city">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>City</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="address-level2"
+                                          type="text"
+                                          placeholder="City" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                              <Field name="state">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>State</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="address-level1"
+                                          type="text"
+                                          as="select"
+                                          placeholder="CA">
+                                          { us.STATES.map( (value, index) => {
+                                             return <option key={value.abbr} value={value.abbr}>{value.abbr}</option>
+                                          })
+                                          }
+                                       </Form.Control>
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                              <Field name="zip">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>Zip</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="postal-code"
+                                          type="number"
+                                          placeholder="Zip" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name="celltel">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>Primary Phone</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="tel"
+                                          type="tel"
+                                          placeholder="(###) ###-####" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                              <Field name="hometel">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>Secondary Phone</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="tel"
+                                          type="tel"
+                                          placeholder="(###) ###-####" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                           </Form.Row>
+                        </Form.Group>
+                     </Form.Group>
+                  </SubForm.Page>
+
+                  <SubForm.Page>
+                     <Form.Group>
+                        <Form.Group>
+                           <Form.Label className="h4">Preliminary Questions</Form.Label>
+                           { prelim_questions.map( (question, index) => (
+                              <Form.Row>
+                                 <Field name={"pq" + index}>
+                                    { ({ input, meta}) => (
+                                       <Form.Group as={Col} controlId={input.name} >
+                                          <Form.Label>{question.prompt}</Form.Label>
+                                          <Form.Control
+                                             { ...input }
+                                             as="textarea"
+                                             maxLength={ ANSWER_MAX_LEN }
+                                             rows={ ANSWER_ROWS }
+                                             autoComplete="tel"
+                                             type="textarea" />
+                                          { console.dir(meta) && meta.error && meta.touched &&
+                                          <Form.Control.Feedback>
+                                             {meta.error}
+                                          </Form.Control.Feedback> }
+                                       </Form.Group>
+                                    )}
+                                 </Field>
+                              </Form.Row>
+                           ))}
+                        </Form.Group>
+                     </Form.Group>
+                  </SubForm.Page>
+
+                  <SubForm.Page>
+                     <Form.Group>
+                        <Form.Group>
+                           <Form.Label className="h4">Employment History</Form.Label>
+
+                           <Form.Row>
+                              <Form.Group>
+                                 <Button onClick={ () => lds.push('employers', undefined
+                                 )
+                                 } className="float-right" >Save Employer</Button>
+                              </Form.Group>
+                           </Form.Row>
+
+                           <FieldArray name="employers">
+                           <Form.Row>
+                              <Field name={ "employerName" }>
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={ Col } controlId={ input.name } >
+                                       <Form.Label>Employer</Form.Label>
+                                       <Form.Control
+                                          { ...input }
+                                          maxLength={ ANSWER_MAX_LEN }
+                                          rows={ ANSWER_ROWS }
+                                       />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          { meta.error }
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 ) }
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name="empl_address1">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>Address</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="address-line1"
+                                          type="text"
+                                          placeholder="1234 Main St." />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name="empl_address2">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="address-line2"
+                                          type="text"
+                                          placeholder="Apartment, studio, floor" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name="empl_city">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>City</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="address-level2"
+                                          type="text"
+                                          placeholder="City" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                              <Field name="empl_state">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>State</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="address-level1"
+                                          type="text"
+                                          as="select"
+                                          placeholder="CA">
+                                          { us.STATES.map( (value, index) => {
+                                             return <option key={value.abbr} value={value.abbr}>{value.abbr}</option>
+                                          })
+                                          }
+                                       </Form.Control>
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                              <Field name="empl_zip">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>Zip</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="postal-code"
+                                          type="number"
+                                          placeholder="Zip" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name="celltel">
+                                 { ({ input, meta}) => (
+                                    <Form.Group as={Col} controlId={input.name} >
+                                       <Form.Label>Primary Phone</Form.Label>
+                                       <Form.Control
+                                          {...input}
+                                          autoComplete="tel"
+                                          type="tel"
+                                          placeholder="(###) ###-####" />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          {meta.error}
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 )}
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name={ "supervisor" }>
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={ Col } controlId={ input.name } >
+                                       <Form.Label>Supervisor</Form.Label>
+                                       <Form.Control
+                                          { ...input }
+                                          maxLength={ ANSWER_MAX_LEN }
+                                          rows={ ANSWER_ROWS }
+                                       />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          { meta.error }
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 ) }
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name={ "position" }>
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={ Col } controlId={ input.name } >
+                                       <Form.Label>Position</Form.Label>
+                                       <Form.Control
+                                          { ...input }
+                                          maxLength={ ANSWER_MAX_LEN }
+                                          rows={ ANSWER_ROWS }
+                                       />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          { meta.error }
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 ) }
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name={ "description" }>
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={ Col } controlId={ input.name } >
+                                       <Form.Label>Description</Form.Label>
+                                       <Form.Control
+                                          { ...input }
+                                          maxLength={ ANSWER_MAX_LEN }
+                                          rows={ ANSWER_ROWS }
+                                       />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          { meta.error }
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 ) }
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name={ "salary" }>
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={ Col } controlId={ input.name } >
+                                       <Form.Label>Salary</Form.Label>
+                                       <Form.Control
+                                          { ...input }
+                                          maxLength={ ANSWER_MAX_LEN }
+                                          rows={ ANSWER_ROWS }
+                                       />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          { meta.error }
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 ) }
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name={ "start" }>
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={ Col } controlId={ input.name } >
+                                       <Form.Label>Start</Form.Label>
+                                       <Form.Control
+                                          { ...input }
+                                          maxLength={ ANSWER_MAX_LEN }
+                                          rows={ ANSWER_ROWS }
+                                          type="date"
+                                       />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          { meta.error }
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 ) }
+                              </Field>
+
+                              <Field name={ "end" }>
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={ Col } controlId={ input.name } >
+                                       <Form.Label>End</Form.Label>
+                                       <Form.Control
+                                          { ...input }
+                                          maxLength={ ANSWER_MAX_LEN }
+                                          rows={ ANSWER_ROWS }
+                                          type="date"
+                                       />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          { meta.error }
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 ) }
+                              </Field>
+                           </Form.Row>
+
+                           <Form.Row>
+                              <Field name={ "reason" }>
+                                 { ({ input, meta }) => (
+                                    <Form.Group as={ Col } controlId={ input.name } >
+                                       <Form.Label>Reason for leaving</Form.Label>
+                                       <Form.Control
+                                          { ...input }
+                                          maxLength={ ANSWER_MAX_LEN }
+                                          rows={ ANSWER_ROWS }
+                                       />
+                                       { console.dir(meta) && meta.error && meta.touched &&
+                                       <Form.Control.Feedback>
+                                          { meta.error }
+                                       </Form.Control.Feedback> }
+                                    </Form.Group>
+                                 ) }
+                              </Field>
+                           </Form.Row>
+
+                           </FieldArray>
+
+                           { this.state.employers.map( (employer, index) => (
+                              <Card>
+                                 <Card.Body>
+                                    <h1>{ employer.name }</h1>
+
+                                    <h1>{ employer.address1 }</h1>
+                                    <h1>{ employer.address2 }</h1>
+                                    <h1>{ employer.city }</h1>
+                                    <h1>{ employer.state }</h1>
+                                    <h1>{ employer.zip }</h1>
+
+                                    <h1>{ employer.phone }</h1>
+
+                                    <h1>{ employer.supervisor }</h1>
+                                    <h1>{ employer.position }</h1>
+                                    <h1>{ employer.description }</h1>
+                                    <h1>{ employer.salary }</h1>
+                                    <h1>{ employer.start }</h1>
+                                    <h1>{ employer.end }</h1>
+                                    <h1>{ employer.reason }</h1>
+                                 </Card.Body>
+                              </Card>
+                           )) }
+
+                        </Form.Group>
+                     </Form.Group>
+                  </SubForm.Page>
+               </SubForm>
+
+            </Card.Body>
+         </Card>
+      )
+   }
+}
